@@ -13,17 +13,23 @@ public class Node {
 	public static final int END = 5;
 	private int type;
 	private int distanceToEnd;
-	private List<Node> pathToNode;
+	private int distanceTraveled;
+	private final int column;
+	private final int row;
+	private Node link;
 
-	public Node(int type, int distanceToEnd) {
+	public Node(int type, int distanceToEnd, int column, int row) {
+		this.column = column;
+		this.row = row;
 		assignType(type);
 		this.distanceToEnd = distanceToEnd;
 		if (type == START) {
-			pathToNode = new ArrayList<Node>();
-			pathToNode.add(this);
+			link = this;
+			distanceTraveled = 0;
 		}
 		else {
-			pathToNode = null;
+			link = null;
+			distanceTraveled = Integer.MAX_VALUE;
 		}
 	}
 
@@ -37,39 +43,49 @@ public class Node {
 		}
 	}
 
-	public void visit(Node nextNode) {
-		if (!nextNode.isWall()) {
-			if (nextNode.getDistanceTraveled() > getDistanceTraveled() + 1) {
-				nextNode.addToPath(pathToNode);
-			}
+	public boolean visit(Node nextNode) {
+		if (nextNode != link && nextNode.getDistanceTraveled() > getDistanceTraveled() + 1) {
+			nextNode.addToPath(this);
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 
-	public void addToPath(List<Node> previous) {
-		pathToNode = previous;
-		pathToNode.add(this);
+	public void addToPath(Node link) {
+		this.link = link;
+	}
+
+	public List<Node> getPath() {
+		if (type == START) {
+			return new ArrayList<Node>();
+		}
+		else {
+			List<Node> path = link.getPath();
+			path.add(link);
+			return path;
+		}
 	}
 
 	public int getDistanceTraveled() {
-		if (pathToNode == null) {
-			return Integer.MAX_VALUE;
-		}
-		else {
-			return pathToNode.size();
-		}
+		return distanceTraveled;
 	}
 
 	public int getTotalDistance() {
-		if (pathToNode == null) {
-			return Integer.MAX_VALUE;
-		}
-		else {
-			return pathToNode.size() - 1 + distanceToEnd;
-		}
+		return distanceTraveled + distanceToEnd;
 	}
 
 	public boolean isWall() {
 		return isWall;
+	}
+
+	public int getColumn() {
+		return column;
+	}
+
+	public int getRow() {
+		return row;
 	}
 
 	@Override
