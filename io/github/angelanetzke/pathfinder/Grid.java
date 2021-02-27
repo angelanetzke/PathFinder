@@ -92,17 +92,7 @@ public class Grid {
 				nextNode = queue.peek();
 			}
 		}
-
-		if (queue.size() > 0) {
-			List<Node> path = endNode.getPath();
-			for (Node n : path) {
-				System.out.print(n.getColumn() + "," + n.getRow() + "->");
-			}
-		}
-		else {
-			System.out.println("Path not found");
-		}
-
+		endNode.getPath();
 	}
 
 	@Override

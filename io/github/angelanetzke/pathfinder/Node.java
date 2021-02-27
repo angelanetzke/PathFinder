@@ -62,6 +62,12 @@ public class Node {
 			return new ArrayList<Node>();
 		}
 		else {
+			if (link.getColumn() == getColumn()) {
+				assignType(VERTICAL_PATH);
+			}
+			else {
+				assignType(HORIZONTAL_PATH);
+			}
 			List<Node> path = link.getPath();
 			path.add(link);
 			return path;
