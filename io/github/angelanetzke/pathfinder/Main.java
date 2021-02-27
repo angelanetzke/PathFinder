@@ -7,7 +7,7 @@ public class Main {
 		System.out.println();
 		System.out.println("Initial Grid:");
 		System.out.println(grid.toString());
-		//grid.findPath();
+		grid.findPath();
 		System.out.println("Path:");
 		System.out.println(grid.toString());
 	}

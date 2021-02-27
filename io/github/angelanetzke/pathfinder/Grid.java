@@ -42,6 +42,10 @@ public class Grid {
 			}
 		}
 	}
+	
+	public void findPath() {
+		
+	}
 
 	@Override
 	public String toString() {
