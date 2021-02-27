@@ -19,6 +19,12 @@ public class Grid {
 				if (column == 0 || column == width - 1 || row == 0 || row == height - 1) {
 					nodes[column][row] = new Node(Node.WALL, manhattanDistance);
 				}
+				else if (column == 1 && row == 1) {
+					nodes[column][row] = new Node(Node.START, manhattanDistance);
+				}
+				else if (column == WIDTH - 2 && row == HEIGHT - 2) {
+					nodes[column][row] = new Node(Node.END, manhattanDistance);
+				}
 				else {
 					if (column % 2 == 0) {
 						int roll = rng.nextInt(WALL_CHANCE);
