@@ -1,6 +1,7 @@
 package io.github.angelanetzke.pathfinder;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ public class Grid {
 	private final Node[][] nodes;
 	private final int WIDTH;
 	private final int HEIGHT;
-	private final int WALL_CHANCE = 4;
+	private final int WALL_CHANCE = 3;
 	private Node startNode;
 	private Node endNode;
 
@@ -41,7 +42,7 @@ public class Grid {
 							nodes[column][row] = new Node(Node.EMPTY, manhattanDistance, column, row);
 						}
 					}
-					else {
+					else { 
 						nodes[column][row] = new Node(Node.EMPTY, manhattanDistance, column, row);
 					}
 				}
@@ -69,6 +70,7 @@ public class Grid {
 				neighbors.add(thisNode);
 			}
 		}
+		Collections.shuffle(neighbors);
 		return neighbors;
 	}
 

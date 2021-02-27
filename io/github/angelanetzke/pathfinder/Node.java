@@ -55,6 +55,7 @@ public class Node {
 
 	public void addToPath(Node link) {
 		this.link = link;
+		distanceTraveled = link.link.getDistanceTraveled() + 1;
 	}
 
 	public List<Node> getPath() {
