@@ -2,22 +2,28 @@ package io.github.angelanetzke.pathfinder;
 
 public class Node {
 	private boolean isWall;
-	public static final int NO_PATH = 0;
+	public static final int EMPTY = 0;
 	public static final int VERTICAL_PATH = 1;
 	public static final int HORIZONTAL_PATH = 2;
-	int path;
+	public static final int WALL = 3;
+	public static final int START = 4;
+	public static final int END = 5;
+	private int type;
+	private int distanceToEnd;
 
-	public Node() {
-		this(false);
+	public Node(int type, int distanceToEnd) {
+		assignType(type);
+		this.distanceToEnd = distanceToEnd;
 	}
 
-	public Node(boolean isWall) {
-		path = NO_PATH;
-		this.isWall = isWall;
-	}
-
-	public void assignPath(int newPath) {
-		path = newPath;
+	public void assignType(int newType) {
+		type = newType;
+		if (type == WALL) {
+			isWall = true;
+		}
+		else {
+			isWall = false;
+		}
 	}
 
 	public boolean isWall() {
@@ -26,19 +32,19 @@ public class Node {
 
 	@Override
 	public String toString() {
-		if (path == VERTICAL_PATH) {
-			return "|";
-		}
-		else if (path == HORIZONTAL_PATH) {
-			return "-";
-		}
-		else {
-			if (isWall()) {
+		switch (type) {
+			case VERTICAL_PATH:
+				return "|";
+			case HORIZONTAL_PATH:
+				return "-";
+			case WALL:
 				return "#";
-			}
-			else {
+			case START:
+				return "S";
+			case END:
+				return "E";
+			default:
 				return " ";
-			}
 		}
 	}
 

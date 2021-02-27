@@ -15,21 +15,22 @@ public class Grid {
 		nodes = new Node[WIDTH][HEIGHT];
 		for (int column = 0; column < WIDTH; column++) {
 			for (int row = 0; row < HEIGHT; row++) {
+				int manhattanDistance = (WIDTH - 2 - column) + (HEIGHT - 2 - row);
 				if (column == 0 || column == width - 1 || row == 0 || row == height - 1) {
-					nodes[column][row] = new Node(true);
+					nodes[column][row] = new Node(Node.WALL, manhattanDistance);
 				}
 				else {
 					if (column % 2 == 0) {
 						int roll = rng.nextInt(WALL_CHANCE);
 						if (roll == 0) {
-							nodes[column][row] = new Node(true);
+							nodes[column][row] = new Node(Node.WALL, manhattanDistance);
 						}
 						else {
-							nodes[column][row] = new Node(false);
+							nodes[column][row] = new Node(Node.EMPTY, manhattanDistance);
 						}
 					}
 					else {
-						nodes[column][row] = new Node(false);
+						nodes[column][row] = new Node(Node.EMPTY, manhattanDistance);
 					}					
 				}
 			}
