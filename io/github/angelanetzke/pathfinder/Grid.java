@@ -42,7 +42,7 @@ public class Grid {
 							nodes[column][row] = new Node(Node.EMPTY, manhattanDistance, column, row);
 						}
 					}
-					else { 
+					else {
 						nodes[column][row] = new Node(Node.EMPTY, manhattanDistance, column, row);
 					}
 				}

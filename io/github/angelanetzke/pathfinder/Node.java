@@ -1,34 +1,33 @@
 package io.github.angelanetzke.pathfinder;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Node {
 	private boolean isWall;
 	public static final int EMPTY = 0;
 	public static final int VERTICAL_PATH = 1;
 	public static final int HORIZONTAL_PATH = 2;
-	public static final int WALL = 3;
-	public static final int START = 4;
-	public static final int END = 5;
+	public static final int CORNER_PATH = 3;
+	public static final int WALL = 4;
+	public static final int START = 5;
+	public static final int END = 6;
 	private int type;
 	private int distanceToEnd;
 	private int distanceTraveled;
 	private final int column;
 	private final int row;
-	private Node link;
+	private Node previous;
+	private Node next;
 
 	public Node(int type, int distanceToEnd, int column, int row) {
 		this.column = column;
 		this.row = row;
 		assignType(type);
 		this.distanceToEnd = distanceToEnd;
+		previous = null;
+		next = null;
 		if (type == START) {
-			link = this;
 			distanceTraveled = 0;
 		}
 		else {
-			link = null;
 			distanceTraveled = Integer.MAX_VALUE;
 		}
 	}
@@ -44,7 +43,7 @@ public class Node {
 	}
 
 	public boolean visit(Node nextNode) {
-		if (nextNode != link && nextNode.getDistanceTraveled() > getDistanceTraveled() + 1) {
+		if (nextNode != previous && nextNode.getDistanceTraveled() > getDistanceTraveled() + 1) {
 			nextNode.addToPath(this);
 			return true;
 		}
@@ -54,25 +53,31 @@ public class Node {
 	}
 
 	public void addToPath(Node link) {
-		this.link = link;
-		distanceTraveled = link.link.getDistanceTraveled() + 1;
+		previous = link;
+		distanceTraveled = link.getDistanceTraveled() + 1;
 	}
 
-	public List<Node> getPath() {
+	public void getPath() {
 		if (type == START) {
-			return new ArrayList<Node>();
+			return;
+		}
+		else if (type == END) {
+			previous.next = this;
+			previous.getPath();
 		}
 		else {
-			if (link.getColumn() == getColumn()) {
+			previous.next = this;
+			if (previous.getColumn() == next.getColumn()) {
 				assignType(VERTICAL_PATH);
 			}
-			else {
+			else if (previous.getRow() == next.getRow()) {
 				assignType(HORIZONTAL_PATH);
 			}
-			List<Node> path = link.getPath();
-			path.add(link);
-			return path;
+			else {
+				assignType(CORNER_PATH);
+			}
 		}
+		previous.getPath();
 	}
 
 	public int getDistanceTraveled() {
@@ -102,6 +107,8 @@ public class Node {
 				return "|";
 			case HORIZONTAL_PATH:
 				return "-";
+			case CORNER_PATH:
+				return "+";
 			case WALL:
 				return "#";
 			case START:
