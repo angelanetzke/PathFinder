@@ -76,7 +76,6 @@ public class Grid {
 	}
 
 	public void findPath() {
-		//NodeQueue queue = new NodeQueue();
 		PriorityQueue<Node> queue = new PriorityQueue<Node>();
 		
 		List<Node> discarded = new ArrayList<Node>();
