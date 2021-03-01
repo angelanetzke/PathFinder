@@ -3,6 +3,7 @@ package io.github.angelanetzke.pathfinder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Random;
 
 public class Grid {
@@ -75,18 +76,20 @@ public class Grid {
 	}
 
 	public void findPath() {
-		NodeQueue queue = new NodeQueue();
+		//NodeQueue queue = new NodeQueue();
+		PriorityQueue<Node> queue = new PriorityQueue<Node>();
+		
 		List<Node> discarded = new ArrayList<Node>();
-		queue.push(startNode);
+		queue.add(startNode);
 		Node nextNode = queue.peek();
 		while (nextNode != endNode && queue.size() > 0) {
 			List<Node> expansion = expand(nextNode);
-			queue.pop();
+			queue.remove(nextNode);
 			discarded.add(nextNode);
 			for (Node neighbor : expansion) {
 				if (!discarded.contains(neighbor)) {
 					if (nextNode.visit(neighbor)) {
-						queue.push(neighbor);
+						queue.add(neighbor);
 					}
 				}
 			}

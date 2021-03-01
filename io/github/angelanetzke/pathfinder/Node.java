@@ -1,6 +1,6 @@
 package io.github.angelanetzke.pathfinder;
 
-public class Node {
+public class Node implements Comparable<Node> {
 	private boolean isWall;
 	public static final int EMPTY = 0;
 	public static final int VERTICAL_PATH = 1;
@@ -98,6 +98,19 @@ public class Node {
 
 	public int getRow() {
 		return row;
+	}
+
+	@Override
+	public int compareTo(Node o) {
+		if (getTotalDistance() < o.getTotalDistance()) {
+			return -1;
+		}
+		else if (getTotalDistance() > o.getTotalDistance()) {
+			return 1;
+		}
+		else {
+			return 0;
+		}
 	}
 
 	@Override
